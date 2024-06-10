@@ -163,19 +163,20 @@ static Bool ft_enum_fonts(void *cbck, char *file_name, char *file_path, GF_FileE
 			}
 			gf_opts_set_key("FontCache", szfont, file_path);
 
-			/*remember first font found which looks like a alphabetical one*/
-			if (!ftpriv->font_default) {
-				u32 gidx;
-				FT_Select_Charmap(face, FT_ENCODING_UNICODE);
-				gidx = FT_Get_Char_Index(face, (u32) 'a');
-				if (gidx) gidx = FT_Get_Char_Index(face, (u32) 'z');
-				if (gidx) gidx = FT_Get_Char_Index(face, (u32) '1');
-				if (gidx) gidx = FT_Get_Char_Index(face, (u32) '@');
-				if (gidx) ftpriv->font_default = gf_strdup(szfont);
-			}
-
 			/*try to assign default fixed fonts*/
 			if (!bold && !italic) {
+
+				/*remember first font found which looks like a alphabetical one*/
+				if (!ftpriv->font_default) {
+					u32 gidx;
+					FT_Select_Charmap(face, FT_ENCODING_UNICODE);
+					gidx = FT_Get_Char_Index(face, (u32) 'a');
+					if (gidx) gidx = FT_Get_Char_Index(face, (u32) 'z');
+					if (gidx) gidx = FT_Get_Char_Index(face, (u32) '1');
+					if (gidx) gidx = FT_Get_Char_Index(face, (u32) '@');
+					if (gidx) ftpriv->font_default = gf_strdup(szfont);
+				}
+
 				strcpy(szfont, face->family_name);
 				strlwr(szfont);
 
